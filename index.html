@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- HEAD COMPLETO CON PWA Y ÍCONO -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Contactos</title>
+
+<!-- Ícono para la PWA -->
+<link rel="icon" type="image/png" href="AppSalud-192x192.png">
+<link rel="apple-touch-icon" href="AppSalud-512x512.png">
+
+<!-- Manifest para instalar como app -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f172a">
+
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Estilos personalizados -->
+<?!= include('head'); ?>
+
+  </head>
+  <body class="min-h-screen bg-gray-50">
+    <!-- Contenedor principal mobile-first -->
+    <div class="app-container w-full flex flex-col overflow-hidden">
+      
+      <!-- Navbar (botones de pestañas) -->
+      <?!= include('navbar'); ?>
+
+      <!-- Contenido de pestañas -->
+      <main id="main" class="flex-1 p-3 touch-pan-y">
+  <!-- Sección de Registro (inicialmente visible) -->
+  <section id="tab-registro" class="tab-content">
+    <?!= include('registro'); ?>
+  </section>
+
+  <!-- Sección de Gestión (inicialmente oculta) -->
+  <section id="tab-gestion" class="tab-content hidden">
+    <?!= includeTpl('gestion', { P: '' }); ?>
+  </section>
+
+  <!-- Sección de Agendar (inicialmente oculta) -->
+  <section id="tab-agendar" class="tab-content hidden">
+    <?!= includeTpl('agendar', { P: '' }); ?>
+  </section>
+</main>
+
+
+      <!-- LED de guardado (arriba a la derecha) -->
+      <div id="saveLed" aria-hidden="true"></div>
+
+      <!-- Toast para mensajes flotantes -->
+      <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 hidden">
+        <div class="px-4 py-2 rounded shadow text-white bg-blue-700" id="toast-text"></div>
+      </div>
+
+      <!-- Inclusión del script principal -->
+      <?!= include('script'); ?>
+    </div>
+
+    
+      <script>
+      if ('serviceWorker' in navigator) {
+       window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+         .catch(err => console.error('SW registration failed:', err));
+        });
+      }
+      </script>
+  </body>
+</html>
